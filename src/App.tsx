@@ -5,10 +5,12 @@ import {
   PutObjectCommandInput,
 } from "@aws-sdk/client-s3";
 
-const REGION = import.meta.env.VITE_AWS_REGION;
-const BUCKET_NAME = import.meta.env.VITE_BUCKET_NAME;
-const ACCESS_KEY_ID = import.meta.env.VITE_AWS_ACCESS_KEY_ID;
-const SECRET_ACCESS_KEY = import.meta.env.VITE_AWS_SECRET_ACCESS_KEY;
+const REGION = (import.meta.env.VITE_AWS_REGION || "").trim();
+const BUCKET_NAME = (import.meta.env.VITE_BUCKET_NAME || "").trim();
+const ACCESS_KEY_ID = (import.meta.env.VITE_AWS_ACCESS_KEY_ID || "").trim();
+const SECRET_ACCESS_KEY = (
+  import.meta.env.VITE_AWS_SECRET_ACCESS_KEY || ""
+).trim();
 
 const s3Client = new S3Client({
   region: REGION,
@@ -99,7 +101,6 @@ export default function App() {
 
   const [url, setUrl] = useState<string>("");
 
-  // Atualizar campos gerais e aninhados
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
     path?: string[]
@@ -107,10 +108,8 @@ export default function App() {
     const { name, value, type, checked } = e.target;
     setForm((prev) => {
       if (!path) {
-        // Campo raiz
         return { ...prev, [name]: type === "checkbox" ? checked : value };
       } else {
-        // Atualizar objeto aninhado
         const updated = { ...prev };
         let obj: any = updated;
         for (let i = 0; i < path.length - 1; i++) {
@@ -123,7 +122,6 @@ export default function App() {
     });
   };
 
-  // Atualizar campos das sugestões
   const handleSuggestionChange = (
     index: number,
     field: keyof Suggestion,
@@ -155,13 +153,39 @@ export default function App() {
         Key: `public/${filename}`,
         Body: body,
         ContentType: "application/json",
-        ACL: "public-read",
       };
 
       await s3Client.send(new PutObjectCommand(input));
       setUrl(
         `https://${BUCKET_NAME}.s3.${REGION}.amazonaws.com/public/${filename}`
       );
+
+      setForm({
+        brandUrl: "",
+        faqPath: "",
+        privacyPath: "",
+        position: "",
+        persona: "",
+        config: {
+          welcome: {
+            logoUrl: "",
+            welcomeMessage: "",
+          },
+          conversation: {
+            disclaimerText: "",
+            thinkingAnimation: "",
+          },
+          prompts: {
+            inputPlaceholder: "",
+            suggestions: [],
+          },
+          placement: {
+            offsetX: 0,
+            offsetY: 0,
+            sticky: false,
+          },
+        },
+      });
     } catch (error) {
       console.error("Upload failed:", error);
       alert("Upload failed, check console");
