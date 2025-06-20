@@ -55,46 +55,28 @@ type FormData = {
 
 export default function App() {
   const [form, setForm] = useState<FormData>({
-    brandUrl: "https://www.mckissock.com",
-    faqPath: "faq",
-    privacyPath: "privacy-policy",
-    position: "bottom-right",
-    persona: "purchase_advisor",
+    brandUrl: "",
+    faqPath: "",
+    privacyPath: "",
+    position: "",
+    persona: "",
     config: {
       welcome: {
-        logoUrl:
-          "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg",
-        welcomeMessage: "Hello! How can I assist you today?",
+        logoUrl: "",
+        welcomeMessage: "",
       },
       conversation: {
-        disclaimerText:
-          "Rubi is an AI and may not always be 100% accurate. View full disclaimer or contact Academic Support.",
-        thinkingAnimation: "pulse",
+        disclaimerText: "",
+        thinkingAnimation: "",
       },
       prompts: {
-        inputPlaceholder: "Type your question here...",
-        suggestions: [
-          {
-            label: "Licensing Info",
-            iconUrl: "https://cdn-icons-png.flaticon.com/512/4201/4201987.png",
-            color: "#3b82f6",
-          },
-          {
-            label: "Payment Options",
-            iconUrl: "https://cdn-icons-png.flaticon.com/512/484/484662.png",
-            color: "#10b981",
-          },
-          {
-            label: "Technical Support",
-            iconUrl: "https://cdn-icons-png.flaticon.com/512/633/633759.png",
-            color: "#f97316",
-          },
-        ],
+        inputPlaceholder: "",
+        suggestions: [],
       },
       placement: {
-        offsetX: 30,
-        offsetY: 40,
-        sticky: true,
+        offsetX: 0,
+        offsetY: 0,
+        sticky: false,
       },
     },
   });
@@ -200,21 +182,21 @@ export default function App() {
         <h2 className="font-semibold mb-2">General</h2>
         <input
           name="brandUrl"
-          placeholder="brandUrl"
+          placeholder="Enter brand URL, e.g. https://example.com"
           value={form.brandUrl}
           onChange={handleChange}
           className="block w-full border p-2 mb-2"
         />
         <input
           name="faqPath"
-          placeholder="faqPath"
+          placeholder="faqPath, ex /faq"
           value={form.faqPath}
           onChange={handleChange}
           className="block w-full border p-2 mb-2"
         />
         <input
           name="privacyPath"
-          placeholder="privacyPath"
+          placeholder="privacyPath, ex /privacy"
           value={form.privacyPath}
           onChange={handleChange}
           className="block w-full border p-2 mb-2"
